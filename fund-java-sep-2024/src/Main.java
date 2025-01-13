@@ -20,4 +20,5 @@ public class Main
 // notes
 // kdnuggets.com = 10 math concepts for programers
 // teachLondonComputing.org = exercises
-//
+// String is immutable. Functions don't change the string. We assign a new value
+// string builder .setLength(0) = empty string

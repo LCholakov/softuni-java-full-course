@@ -1,15 +1,14 @@
 package Week8_Maps_Lambda_Stream.Lab;
 
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
 
 public class WordSynonyms_02 {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
-        // replace with linked map
-        TreeMap<String, String> synonMap = new TreeMap<>();
+        // replace with linked map or regular map
+//        HashMap<String, String> synonMap = new HashMap<>();
+        LinkedHashMap<String, String> synonMap = new LinkedHashMap<>();
 
         for (int i = Integer.parseInt(scan.nextLine()); i > 0; i--) {
             String word = scan.nextLine();
