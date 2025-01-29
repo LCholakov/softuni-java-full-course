@@ -1,4 +1,0 @@
-questions: 
-slido.com -> pb-july it seems to be integrated 
-
-classes start with a capital letter, cannot start with numerical
