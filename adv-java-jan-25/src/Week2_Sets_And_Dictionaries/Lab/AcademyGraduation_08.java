@@ -1,7 +1,10 @@
 package Week2_Sets_And_Dictionaries.Lab;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
 
 public class AcademyGraduation_08 {
     public static void main(String[] args) {
@@ -15,23 +18,27 @@ public class AcademyGraduation_08 {
                     .mapToDouble(Double::parseDouble)
                     .toArray();
 
-            double avgScore = getaAvgScore(grades);
-
-            students.put(name, avgScore);
-
+            double avgGrade = getAvgGrade(grades);
+            students.put(name, avgGrade);
         }
-
         students.forEach((k, v) -> {
-            System.out.printf("%s is graduated with %.3f%n", k, decFormat.format(v));
+
+//            String s = new DecimalFormat("0.######").format(v);
+//            https://softuni.bg/forum/37970/7-academygraduation
+//            не ти трябва децимал формат , проблема е в double принта ,
+//            в единия от случаите average е да речем 2.04333331249 и джъдж очаква да отпечатиш този резултат ,
+//            но като му кажеш %f в стринг формата и печати 2.0433333125 , проблема си го решаваш като го печатиш с %s
+//            https://github.com/Petrov-connect/Java-Advanced/blob/master/SetsAndMaps/AcademyGraduation.java
+
+            System.out.printf("%s is graduated with %s%n", k,v.toString());
         });
     }
 
-    private static double getaAvgScore(double[] grades) {
+    private static double getAvgGrade(double[] grades) {
         double sum = 0;
         for (Double grade : grades) {
             sum += grade;
         }
-
         return sum / grades.length;
     }
 }

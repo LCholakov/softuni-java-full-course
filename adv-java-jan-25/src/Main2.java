@@ -89,5 +89,13 @@ public class Main2 {
         }
 
         cars.forEach(car -> System.out.println(car.carInfo()));
+
+
+        // class feedback
+        // 4d is a bit much. Before at 3 I had time to also solve all optional exer and also "More" exercises
+        // now I don't have time for all the mandatory even. I feel lagging behind.
+        // staying past 10pm is getting tough, since I work from 7 am and have to eat.
+        // Yulian is great, but often extends to 10:30, 10:40
+        // Kaloyan is good when he has prepared. But if he solves on the fly it's not very efficient.
     }
 }

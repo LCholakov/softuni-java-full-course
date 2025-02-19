@@ -8,8 +8,8 @@ import java.util.List;
 
 public class SortLines_06 {
     public static void main(String[] args) throws IOException {
-        String inputPath = "/home/lyubo/Code/SoftUni/softuni-java-full-course/adv-java-jan-25/rsc/04. Java-Advanced-Files-and-Streams-Week3_Functional_Programming.Week3_Defining_Clases.Lab-Resources/input.txt";
-        String outputPath = "/home/lyubo/Code/SoftUni/softuni-java-full-course/adv-java-jan-25/rsc/04. Java-Advanced-Files-and-Streams-Week3_Functional_Programming.Week3_Defining_Clases.Lab-Resources/06.SortLinesOutput.txt";
+        String inputPath = "/home/lyubo/Code/SoftUni/softuni-java-full-course/adv-java-jan-25/rsc/04. Java-Advanced-Files-and-Streams-Week3_Functional_Programming.Week3_Defining_Clases.Week3_Generics.Week4_IteratorsAndComparators.Lab-Resources/input.txt";
+        String outputPath = "/home/lyubo/Code/SoftUni/softuni-java-full-course/adv-java-jan-25/rsc/04. Java-Advanced-Files-and-Streams-Week3_Functional_Programming.Week3_Defining_Clases.Week3_Generics.Week4_IteratorsAndComparators.Lab-Resources/06.SortLinesOutput.txt";
 
         List<String> linesList = Files.readAllLines(Path.of(inputPath));
         Collections.sort(linesList);

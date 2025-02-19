@@ -7,7 +7,7 @@ import java.io.InputStream;
 public class ReadFile_01 {
     public static void main(String[] args) {
 
-        String fpath = "/home/lyubo/Code/SoftUni/softuni-java-full-course/adv-java-jan-25/rsc/04. Java-Advanced-Files-and-Streams-Week3_Functional_Programming.Week3_Defining_Clases.Lab-Resources/input.txt";
+        String fpath = "/home/lyubo/Code/SoftUni/softuni-java-full-course/adv-java-jan-25/rsc/04. Java-Advanced-Files-and-Streams-Week3_Functional_Programming.Week3_Defining_Clases.Week3_Generics.Week4_IteratorsAndComparators.Lab-Resources/input.txt";
 
         try (InputStream inputStream = new FileInputStream(fpath);){
 
