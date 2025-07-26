@@ -1,0 +1,5 @@
+mysql workbench -> localhost:3306
+mysql workbench -> right click -> edit connection -> hostname, port, username
+
+download connector/j from https://dev.mysql.com/downloads/connector/j/
+add lib .jar from file-> project structure -> libraries -> add library

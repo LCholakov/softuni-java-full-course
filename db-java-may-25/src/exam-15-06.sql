@@ -462,4 +462,6 @@ where c.brand = brand
 order by price_per_day desc;
 
 
+select extract(day from '2000-02-03'),day('2000-02-03');
 
+select locate('@', 'pesho@softuni.bg', 10);
