@@ -1,12 +1,15 @@
 package softuni.exam.service.impl;
 
+import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import softuni.exam.dtos.DeviceInputDto;
 import softuni.exam.dtos.DevicesImportDto;
 import softuni.exam.entities.Device;
 import softuni.exam.entities.Sale;
+import softuni.exam.enums.DeviceType;
 import softuni.exam.repository.DeviceRepository;
 import softuni.exam.service.DeviceService;
 import softuni.exam.service.SaleService;
@@ -14,22 +17,25 @@ import softuni.exam.util.ValidationUtil;
 import softuni.exam.util.XmlParser;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @Service
 public class DeviceServiceImpl implements DeviceService {
     private final SaleService saleService;
     private final DeviceRepository deviceRepository;
-    private final XmlParser xmlParser;
+//    private final XmlParser xmlParser;
+    private final JAXBContext jaxbContext;
     private final ValidationUtil validator;
     private final ModelMapper modelMapper;
 
 
-    public DeviceServiceImpl(SaleService saleService, DeviceRepository deviceRepository, XmlParser xmlParser, ValidationUtil validator, ModelMapper modelMapper) {
+    public DeviceServiceImpl(SaleService saleService, DeviceRepository deviceRepository, JAXBContext jaxbContext, ValidationUtil validator, ModelMapper modelMapper) {
         this.saleService = saleService;
         this.deviceRepository = deviceRepository;
-        this.xmlParser = xmlParser;
+        this.jaxbContext = jaxbContext;
         this.validator = validator;
         this.modelMapper = modelMapper;
     }
@@ -47,7 +53,17 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public String importDevices() throws IOException, JAXBException {
-        DevicesImportDto importDto = xmlParser.fromXml(readDevicesFromFile(), DevicesImportDto.class);
+//        DevicesImportDto importDto = xmlParser.fromXml(readDevicesFromFile(), DevicesImportDto.class);
+
+//        with bean:
+        DevicesImportDto importDto;
+
+        String importXml = readDevicesFromFile();
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        try(StringReader reader = new StringReader(importXml)) {
+            importDto = (DevicesImportDto) unmarshaller.unmarshal(reader);
+        }
+
 
         StringBuilder sb = new StringBuilder();
         for (DeviceInputDto inputDto : importDto.getDevices()) {
@@ -63,7 +79,16 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public String exportDevices() {
-        return "";
+        List<Device> devices = deviceRepository.findExportable(DeviceType.SMART_PHONE, 1000.0, 128);
+        StringBuilder sb = new StringBuilder();
+        for(Device device : devices) {
+            sb.append(String.format("Device brand: %s%n", device.getBrand()));
+            sb.append(String.format("   *Model: %s%n", device.getModel()));
+            sb.append(String.format("   **Storage: %d%n", device.getStorage()));
+            sb.append(String.format("   ***Price: %.2f%n", device.getPrice()));
+        }
+
+        return sb.toString();
     }
 
     private Device create(DeviceInputDto inputDto) {

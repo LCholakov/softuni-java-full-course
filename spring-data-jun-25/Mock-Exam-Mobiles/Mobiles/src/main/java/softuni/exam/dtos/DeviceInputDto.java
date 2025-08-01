@@ -1,16 +1,12 @@
 package softuni.exam.dtos;
 
-import com.google.gson.annotations.Expose;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorOrder;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import org.hibernate.validator.constraints.Length;
-import softuni.exam.entities.Sale;
-import softuni.exam.enums.DevicyType;
+import softuni.exam.enums.DeviceType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DeviceInputDto {
@@ -20,7 +16,7 @@ public class DeviceInputDto {
     private String brand;
 
     @XmlElement(name = "device_type")
-    private DevicyType device;
+    private DeviceType device;
 
     @XmlElement(name = "model")
     @NotNull
@@ -46,11 +42,11 @@ public class DeviceInputDto {
         this.brand = brand;
     }
 
-    public DevicyType getDevice() {
+    public DeviceType getDevice() {
         return device;
     }
 
-    public void setDevice(DevicyType device) {
+    public void setDevice(DeviceType device) {
         this.device = device;
     }
 

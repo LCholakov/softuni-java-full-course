@@ -1,6 +1,6 @@
 package softuni.exam.enums;
 
-public enum DevicyType {
+public enum DeviceType {
     SMART_PHONE,
     TABLET,
     SMART_WATCH,
