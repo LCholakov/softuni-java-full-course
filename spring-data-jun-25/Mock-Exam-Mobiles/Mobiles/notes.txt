@@ -1,5 +1,7 @@
 Runnable file is ExamApplication
 
+################################
+
 1. Entities 
 - create package entities in softuni.exam
 - create BaseEntity @MappedSuperClass abstract class with id column
@@ -10,10 +12,14 @@ Runnable file is ExamApplication
 + run tests db
 + submit first version
 
+################################
+
 2. Repositories
 - package repository in softuni.exam
 - interface repo class for each table
 - extends JpaRepository<Device[or whatever class], Long[or whatever PK type]>
+
+################################
 
 3. Services (interfaces already exist)
 - alt + enter = implement interface
@@ -24,3 +30,67 @@ Runnable file is ExamApplication
 
 + test areImported
 + test readFile
+
+################################
+
+4. JSON import 
+- check the constraints - filter invalid data
+- create packate dtos
+- create classes TablenameInputDto
+- add the fields (can copy from table class)
+- create all getters and setters
+- annotate each col with @Expose to use the google lib for deserialization
+- unique cannot be validate with annotation
+
+- in SellerServiceImpl importSellers() func
+        // 1. Parse sellers.json -> SellerInputDto[]
+
+- deserialize the content of the file into an array of SellerInputDto objects
+
+-ApplicationBeanConfiguration from skeleton has Gson configured
+-> inject Gson where we need it Autowire bean -> Gson
+
+
+        // 2. Create a Seller for each SellerInputDto (keep track of success)
+- we use modelmapper (ApplicationBeanConfiguration has a converter
+
+- for loop
+- validatiion manually done - check ValidationUtil
+- add validator to constructor. 
+- inject in SellerServiceImpl (including in constructor)
+- take validation to a separate method create()  
+        
+// 3. Prepare output
+
+return sb.toString
+
++ run tests import Sellers
+error PK violation
++ easy solution is not check if we have a seller with this name or number, will work with Judge, but best is try catch (absorb error, continue operation)
++            // somethins is misssing -> the relation with Seller
+
++ In SellerService.java we definea a new method getReferenceById()
+ 
+
+################################
+
+4. XML import
+- there's an xml parser iface. We don't need it that much
+- We can add in applicationconfiguration another bean for jacksbcontext
+- this time let's try with the xml parser.   
+- change XmlParser.java to not read file cuz we have a service doing it. 
+<T> T fromFile(String filePath, Class<T> tClass) throws JAXBException, FileNotFoundException;
+To
+<T> T fromXml(String xml, Class<T> tClass) throws JAXBException;
+
+- when we have a relation field like     private Long saleId; model mapper will behave a bit strange - will prep a new sale instance, setting the id on it, but will also set the id on the device itself.
+so we name it private Long sale; to avoid the stupidity
+
+- We neeed another file Dto that will deal with the root level of the xml 
+
+################################
+
+5. Data export
+
+
+

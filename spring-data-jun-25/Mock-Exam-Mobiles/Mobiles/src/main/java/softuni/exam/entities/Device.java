@@ -23,6 +23,7 @@ public class Device extends BaseEntity{
     private int storage;
 
     @ManyToOne
+//    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sale_id")
     private Sale sale;
 
