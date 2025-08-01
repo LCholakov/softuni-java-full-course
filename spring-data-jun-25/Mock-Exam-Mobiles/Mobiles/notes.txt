@@ -1,0 +1,26 @@
+Runnable file is ExamApplication
+
+1. Entities 
+- create package entities in softuni.exam
+- create BaseEntity @MappedSuperClass abstract class with id column
+- create a class for each table, annotate, take care for contraints keys
+(- create enum for device type to match db data type)
+- compare diagram
+
++ run tests db
++ submit first version
+
+2. Repositories
+- package repository in softuni.exam
+- interface repo class for each table
+- extends JpaRepository<Device[or whatever class], Long[or whatever PK type]>
+
+3. Services (interfaces already exist)
+- alt + enter = implement interface
+- move implementation to impl package
+- alt+enter on class name for bean
+- add @Service annotation
+- inject repo (alt+win+insert -> Autowire bean -> select repository
+
++ test areImported
++ test readFile
