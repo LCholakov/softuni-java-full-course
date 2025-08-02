@@ -77,7 +77,7 @@ error PK violation
 4. XML import
 - there's an xml parser iface. We don't need it that much
 - We can add in applicationconfiguration another bean for jacksbcontext
-- this time let's try with the xml parser.   
+- this time let's try with the xml parser.    
 - change XmlParser.java to not read file cuz we have a service doing it. 
 <T> T fromFile(String filePath, Class<T> tClass) throws JAXBException, FileNotFoundException;
 To
