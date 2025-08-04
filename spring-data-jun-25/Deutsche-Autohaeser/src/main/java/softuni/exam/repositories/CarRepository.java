@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
     @Query("select c from Car as c where c.carType= :carType and c.mileage < :mileage order by c.mileage desc")
-    List<Car> findExportable(CarType type, int mileage);
+    List<Car> findExportable(CarType carType, int mileage);
 }

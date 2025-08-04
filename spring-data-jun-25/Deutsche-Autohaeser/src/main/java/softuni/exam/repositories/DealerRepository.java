@@ -6,4 +6,5 @@ import softuni.exam.entities.Dealer;
 
 @Repository
 public interface DealerRepository extends JpaRepository<Dealer, Long> {
+    boolean existsByFirstNameAndLastName(String firstName, String lastName);
 }

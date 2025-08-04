@@ -5,7 +5,8 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "dealers")
+@Table(name = "dealers", uniqueConstraints = {@UniqueConstraint(name = "unique_dealer_name", columnNames = {"first_name", "last_name"})})
+
 public class Dealer extends BaseEntity{
     @Column(name = "first_name", nullable = false)
     private String firstName;

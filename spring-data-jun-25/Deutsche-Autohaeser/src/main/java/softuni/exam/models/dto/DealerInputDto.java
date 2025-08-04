@@ -19,7 +19,7 @@ public class DealerInputDto {
     private double averageMonthlyTurnover;
 
     @XmlElement(name = "birthday")
-    private LocalDate birthday;
+    private String birthday;
 
     @XmlElement(name = "first_name")
     @NotNull
@@ -48,11 +48,11 @@ public class DealerInputDto {
         this.averageMonthlyTurnover = averageMonthlyTurnover;
     }
 
-    public LocalDate getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 

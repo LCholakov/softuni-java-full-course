@@ -100,5 +100,10 @@ public class CarServiceImpl implements CarService {
         }
         return sb.toString();
     }
-    
+
+    @Override
+    public Car getReferenceById(Long id) {
+        return repository.getReferenceById(id);
+    }
+
 }
