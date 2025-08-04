@@ -96,7 +96,8 @@ public class CarServiceImpl implements CarService {
         for (Car car : cars) {
             sb.append(String.format("Brand: %s%n", car.getBrand()));
             sb.append(String.format("   *Mileage: %d km.%n", car.getMileage()));
-            sb.append(String.format("  **Model: %s%n", car.getModel()));
+            sb.append(String.format("   **Model: %s%n", car.getModel()));
+            sb.append(String.format("   ***Dealership: %s%n", car.getDealershipId().getName()));
         }
         return sb.toString();
     }
