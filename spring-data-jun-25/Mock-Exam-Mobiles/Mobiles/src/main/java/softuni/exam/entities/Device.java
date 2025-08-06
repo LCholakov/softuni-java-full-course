@@ -22,8 +22,8 @@ public class Device extends BaseEntity{
     @Column(name = "storage")
     private int storage;
 
-    @ManyToOne
-//    @ManyToOne(fetch = FetchType.EAGER)
+//    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sale_id")
     private Sale sale;
 

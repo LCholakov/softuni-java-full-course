@@ -14,7 +14,6 @@ import softuni.exam.repository.DeviceRepository;
 import softuni.exam.service.DeviceService;
 import softuni.exam.service.SaleService;
 import softuni.exam.util.ValidationUtil;
-import softuni.exam.util.XmlParser;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -92,7 +91,7 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     private Device create(DeviceInputDto inputDto) {
-        System.out.println(inputDto);
+//        System.out.println(inputDto);
 
         if(!validator.isValid(inputDto)) {
             return null;
@@ -101,7 +100,7 @@ public class DeviceServiceImpl implements DeviceService {
         try {
             Device device = modelMapper.map(inputDto, Device.class);
 
-            Long saleId = inputDto.getSaleId();
+            Long saleId = inputDto.getSale();
             if(saleId != null) {
                 Sale sale = saleService.getReferenceById(saleId);
                 int x;

@@ -32,7 +32,7 @@ public class DeviceInputDto {
     private int storage;
 
     @XmlElement(name = "sale_id")
-    private Long saleId;
+    private Long sale;
 
     public String getBrand() {
         return brand;
@@ -74,11 +74,11 @@ public class DeviceInputDto {
         this.storage = storage;
     }
 
-    public Long getSaleId() {
-        return saleId;
+    public Long getSale() {
+        return sale;
     }
 
-    public void setSaleId(Long saleId) {
-        this.saleId = saleId;
+    public void setSale(Long sale) {
+        this.sale = sale;
     }
 }
