@@ -8,5 +8,5 @@ import sofuni.exam.models.entity.Discoverer;
 //ToDo:
 @Repository
 public interface DiscovererRepository  extends JpaRepository<Discoverer, Long> {
-
+    boolean existsByFirstNameAndLastName(String firstName, String lastName);
 }

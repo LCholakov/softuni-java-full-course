@@ -2,14 +2,14 @@ package sofuni.exam.models.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "moons")
 public class Moon extends BaseEntity{
     @Column(name = "discovered", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date discovered;
+//    @Temporal(TemporalType.DATE)
+    private LocalDate discovered;
     @Column(name = "distance_from_planet", nullable = true)
     private int distanceFromPlanet;
     @Column(name = "name", unique = true, nullable = false)
@@ -19,17 +19,17 @@ public class Moon extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "discoverer_id", nullable = false)
-    private Discoverer discoverer;
+    private Discoverer discovererId;
 
     @ManyToOne
     @JoinColumn(name = "planet_id", nullable = false)
-    private Planet planet;
+    private Planet planetId;
 
-    public Date getDiscovered() {
+    public LocalDate getDiscovered() {
         return discovered;
     }
 
-    public void setDiscovered(Date discovered) {
+    public void setDiscovered(LocalDate discovered) {
         this.discovered = discovered;
     }
 
@@ -57,19 +57,19 @@ public class Moon extends BaseEntity{
         this.radius = radius;
     }
 
-    public Discoverer getDiscoverer() {
-        return discoverer;
+    public Discoverer getDiscovererId() {
+        return discovererId;
     }
 
-    public void setDiscoverer(Discoverer discoverer) {
-        this.discoverer = discoverer;
+    public void setDiscovererId(Discoverer discoverer) {
+        this.discovererId = discoverer;
     }
 
-    public Planet getPlanet() {
-        return planet;
+    public Planet getPlanetId() {
+        return planetId;
     }
 
-    public void setPlanet(Planet planet) {
-        this.planet = planet;
+    public void setPlanetId(Planet planet) {
+        this.planetId = planet;
     }
 }
