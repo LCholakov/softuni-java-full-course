@@ -13,6 +13,7 @@ import softuni.exam.util.ValidationUtil;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @Service
 public class MountainServiceImpl implements MountainService {
@@ -74,6 +75,21 @@ public class MountainServiceImpl implements MountainService {
 
     @Override
     public String exportMountains() {
-        return "";
+        List<Mountain> mountains = mountainRepository.findExportable(3000, true);
+
+        StringBuilder sb = new StringBuilder();
+
+        for (Mountain mountain : mountains) {
+            sb.append(String.format("Mountain: %s%n", mountain.getName()));
+            sb.append(String.format("   *Located in: %s%n", mountain.getCountryId().getName()));
+            sb.append(String.format("   **Elevation: %s%n", mountain.getElevation()));
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public Mountain getReferenceById(Long id) {
+        return mountainRepository.getReferenceById(id);
     }
 }

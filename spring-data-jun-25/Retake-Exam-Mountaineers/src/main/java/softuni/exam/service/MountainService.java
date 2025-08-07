@@ -1,5 +1,7 @@
 package softuni.exam.service;
 
+import softuni.exam.models.entity.Mountain;
+
 import java.io.IOException;
 
 public interface MountainService {
@@ -11,4 +13,6 @@ public interface MountainService {
     String importMountains() throws IOException;
 
     String exportMountains();
+
+    Mountain getReferenceById(Long id);
 }

@@ -6,4 +6,5 @@ import softuni.exam.models.entity.Mountaineer;
 
 @Repository
 public interface MountaineerRepository extends JpaRepository<Mountaineer, Long> {
+    boolean existsByFirstNameAndLastName(String firstName, String lastName);
 }
