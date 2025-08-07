@@ -1,16 +1,18 @@
-package softuni.exam.models.entity.enums;
+package softuni.exam.models.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.google.gson.annotations.Expose;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 
-@Entity
-@Table(name = "countries")
-public class Country extends BaseEntity {
-    @Column(name = "name", unique = true, nullable = false)
+public class CountryInputDto {
+
+    @Expose
+    @NotNull
+    @Length(min = 3, max = 30)
     private String name;
 
-    @Column(name = "capital", nullable = true)
+    @Expose
+    @Length(min = 3, max = 30)
     private String capital;
 
     public String getName() {

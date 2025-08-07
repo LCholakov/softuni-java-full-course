@@ -4,5 +4,5 @@ import jakarta.xml.bind.JAXBException;
 
 public interface XmlParser {
 
-    <T> T fromFile(String filePath, Class<T> tClass) throws JAXBException;
+    <T> T fromFile(String xml, Class<T> tClass) throws JAXBException;
 }

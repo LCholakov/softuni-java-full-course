@@ -1,12 +1,14 @@
-package softuni.exam.models.entity.enums;
+package softuni.exam.models.entity;
 
 import jakarta.persistence.*;
+import softuni.exam.models.entity.BaseEntity;
+import softuni.exam.models.entity.Mountain;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "mountaineers")
-public class Mountaineer extends BaseEntity{
+public class Mountaineer extends BaseEntity {
     @Column(name = "first_name", unique = true, nullable = false)
     private String firstName;
 

@@ -1,4 +1,4 @@
-package softuni.exam.models.entity.enums;
+package softuni.exam.models.entity;
 
 import jakarta.persistence.*;
 

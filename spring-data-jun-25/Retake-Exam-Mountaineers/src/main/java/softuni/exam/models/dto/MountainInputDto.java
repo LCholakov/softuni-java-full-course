@@ -1,26 +1,35 @@
-package softuni.exam.models.entity.enums;
+package softuni.exam.models.dto;
 
-import jakarta.persistence.*;
+import com.google.gson.annotations.Expose;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import org.hibernate.validator.constraints.Length;
+import softuni.exam.models.entity.Country;
+import softuni.exam.models.entity.enums.ElevationCategory;
 
-@Entity
-@Table(name = "mountains")
-public class Mountain extends BaseEntity {
-    @Column(name = "name", unique = true, nullable = false)
+public class MountainInputDto {
+
+    @Expose
+    @NotNull
+    @Length(min = 2, max = 30)
     private String name;
 
-    @Column(name = "elevation", nullable = false)
+    @Expose
+    @NotNull
+    @Positive
+    @Max(value = 9999)
     private int elevation;
-    
-    @Column(name = "elevation_category", nullable = true)
-    @Enumerated(EnumType.STRING)    
+
+    @Expose
     private ElevationCategory elevationCategory;
-    
-    @Column(name = "hard_to_reach", nullable = false)
+
+    @Expose
+    @NotNull
     private boolean hardToReach;
-    
-    @ManyToOne
-    @JoinColumn(name = "country_id", nullable = true)
-    private Country countryId;
+
+    @Expose
+    private Long country;
 
     public String getName() {
         return name;
@@ -54,11 +63,11 @@ public class Mountain extends BaseEntity {
         this.hardToReach = hardToReach;
     }
 
-    public Country getCountryId() {
-        return countryId;
+    public Long getCountry() {
+        return country;
     }
 
-    public void setCountryId(Country countryId) {
-        this.countryId = countryId;
+    public void setCountry(Long country) {
+        this.country = country;
     }
 }
