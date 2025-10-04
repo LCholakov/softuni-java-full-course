@@ -1,8 +1,5 @@
 package app.subscription.model;
 
-import app.subscription.model.SubscriptionPeriod;
-import app.subscription.model.SubscriptionStatus;
-import app.subscription.model.SubscriptionType;
 import app.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -47,5 +44,5 @@ public class Subscription {
     private LocalDateTime createdOn;
 
     @Column(nullable = false)
-    private LocalDateTime completedOn;
+    private LocalDateTime expiryOn;
 }
