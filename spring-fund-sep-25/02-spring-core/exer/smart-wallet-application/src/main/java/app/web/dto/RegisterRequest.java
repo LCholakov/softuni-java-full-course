@@ -4,18 +4,23 @@ import app.user.model.Country;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.*;
 
 //from registration screen, get data to controller
-public record RegisterRequest(
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class RegisterRequest {
         @NotBlank
         @Size(min = 6, max = 24, message = "Username must be between 6 and 24 characters")
-        String username,
+        private String username;
 
         @NotBlank
-        @Size(min = 6, max = 6, message = "Username must be 6 characters")
-        String password,
+        @Size(min = 6, max = 6, message = "Password must be 6 characters")
+        private String password;
 
         @NotNull
-        Country country
-) {
+        private Country country;
 }

@@ -26,7 +26,7 @@ public class SubcriptionService {
         this.subscriptionRepository = subscriptionRepository;
     }
 
-    public void createDefaultSubscription(User user) {
+    public Subscription createDefaultSubscription(User user) {
 
         Subscription subscription = Subscription.builder()
                 .owner(user)
@@ -39,6 +39,6 @@ public class SubcriptionService {
                 .expiryOn(LocalDateTime.now().plusMonths(1))
                 .build();
 
-        subscriptionRepository.save(subscription);
+        return subscriptionRepository.save(subscription);
     }
 }
