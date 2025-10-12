@@ -4,6 +4,7 @@ import app.user.model.Country;
 import app.user.model.User;
 import app.user.property.UserProperties;
 import app.user.service.UserService;
+import app.web.dto.LoginRequest;
 import app.web.dto.RegisterRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,24 @@ public class IndexController {
     }
 
     @GetMapping("/login")
-    public String getLoginPage() {
-        return "login";
+    public ModelAndView getLoginPage() {
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("login");
+        modelAndView.addObject("loginRequest", new LoginRequest());
+
+        return modelAndView;
+    }
+
+    @PostMapping("/login")
+    public ModelAndView login(@Valid LoginRequest loginRequest, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("login");
+        }
+
+        userService.login(loginRequest);
+
+        return new ModelAndView("redirect:/home");
     }
 
     @GetMapping("/register")
@@ -57,14 +74,12 @@ public class IndexController {
             return new ModelAndView("register");
         }
 
-        User regeisteredUser = userService.register(registerRequest);
+        userService.register(registerRequest);
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("home");
-        modelAndView.addObject("user", regeisteredUser);
-
-
-        return modelAndView;
+//        after every put/post/patch query always redirect !!!
+//        post -> redirect -> get pattern
+//        avoid resubmission of form on page refresh
+        return new ModelAndView("redirect:/home");
     }
 
     @GetMapping("/home")
