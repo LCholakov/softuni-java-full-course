@@ -21,6 +21,10 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
+    public Transaction upsert(Transaction transaction) {
+        return transactionRepository.save(transaction);
+    }
+
     public Transaction createNewTransaction(User owner, String sender, String receiver, BigDecimal amount, BigDecimal balance, Currency currency, TransactionType type , TransactionStatus status, String description, String failureReason) {
         Transaction transaction = Transaction.builder()
                 .owner(owner)
@@ -38,5 +42,9 @@ public class TransactionService {
 
 
         return transactionRepository.save(transaction);
+    }
+
+    public Transaction getById(UUID id) {
+        return transactionRepository.findById(id).orElseThrow(() -> new RuntimeException("Transaction not found"));
     }
 }

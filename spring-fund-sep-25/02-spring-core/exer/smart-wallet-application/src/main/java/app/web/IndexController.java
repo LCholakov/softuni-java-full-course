@@ -44,6 +44,12 @@ public class IndexController {
         return modelAndView;
     }
 
+//    when we have validation in the service itself,
+//    and when we've been told "if <some condition> throw error",
+//    when we throw this error in the service class/methid,
+//    then it is normal to see white label error page,
+//    because I'm not processing the errors globally.
+//    This is the business validation, not the DTO input validation.
     @PostMapping("/login")
     public ModelAndView login(@Valid LoginRequest loginRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

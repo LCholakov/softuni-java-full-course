@@ -4,6 +4,7 @@ import app.subscription.model.Subscription;
 import app.subscription.service.SubcriptionService;
 import app.user.model.User;
 import app.user.model.UserRole;
+import app.user.property.UserProperties;
 import app.user.repository.UserRepository;
 import app.wallet.model.Wallet;
 import app.wallet.repository.WalletRepository;
@@ -30,19 +31,21 @@ public class UserService {
     private final WalletRepository walletRepository;
     private final WalletService walletService;
     private final SubcriptionService subcriptionService;
+    private final UserProperties userProperties;
 
     @Autowired // i don't care how, but userRepos is a bean, so give it to me here.
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, WalletRepository walletRepository, WalletService walletService, SubcriptionService subcriptionService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, WalletRepository walletRepository, WalletService walletService, SubcriptionService subcriptionService, UserProperties userProperties) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.walletRepository = walletRepository;
         this.walletService = walletService;
         this.subcriptionService = subcriptionService;
+        this.userProperties = userProperties;
     }
 
     public User login(LoginRequest loginRequest) {
         Optional<User> optionalUser = userRepository.findByUsername(loginRequest.getUsername());
-        if (optionalUser.isPresent()) {
+        if (optionalUser.isEmpty()) {
             throw new RuntimeException("Incorrect username or password.");
         }
 
@@ -96,5 +99,9 @@ public class UserService {
 
     public User getById(UUID id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User with [%s] id not found.".formatted(id)));
+    }
+
+    public User getDefaultUser() {
+        return getByUsername(userProperties.getDefaultUser().getUsername());
     }
 }
