@@ -9,8 +9,10 @@ import app.user.repository.UserRepository;
 import app.wallet.model.Wallet;
 import app.wallet.repository.WalletRepository;
 import app.wallet.service.WalletService;
+import app.web.dto.EditProfileRequest;
 import app.web.dto.LoginRequest;
 import app.web.dto.RegisterRequest;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -103,5 +105,16 @@ public class UserService {
 
     public User getDefaultUser() {
         return getByUsername(userProperties.getDefaultUser().getUsername());
+    }
+
+    public void updateProfile(UUID id, @Valid EditProfileRequest editProfileRequest) {
+        User user = getById(id);
+        user.setFirstName(editProfileRequest.getFirstName());
+        user.setLastName(editProfileRequest.getLastName());
+        user.setEmail(editProfileRequest.getEmail());
+        user.setProfilePicture(editProfileRequest.getProfilePictureUrl());
+        user.setUpdatedOn(LocalDateTime.now());
+
+        userRepository.save(user);
     }
 }

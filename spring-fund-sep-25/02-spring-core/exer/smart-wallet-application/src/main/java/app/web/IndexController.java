@@ -6,17 +6,22 @@ import app.user.property.UserProperties;
 import app.user.service.UserService;
 import app.web.dto.LoginRequest;
 import app.web.dto.RegisterRequest;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.management.MalformedObjectNameException;
+import java.util.UUID;
 
 @Controller
 public class IndexController {
@@ -51,12 +56,15 @@ public class IndexController {
 //    because I'm not processing the errors globally.
 //    This is the business validation, not the DTO input validation.
     @PostMapping("/login")
-    public ModelAndView login(@Valid LoginRequest loginRequest, BindingResult bindingResult) {
+    public ModelAndView login(@Valid LoginRequest loginRequest, BindingResult bindingResult, HttpSession session) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("login");
         }
 
-        userService.login(loginRequest);
+        User user = userService.login(loginRequest);
+        session.setAttribute("userId", user.getId());
+        session.setAttribute("secretMessage", "This is your secret message.");
+        session.setMaxInactiveInterval(15);
 
         return new ModelAndView("redirect:/home");
     }
@@ -89,14 +97,20 @@ public class IndexController {
     }
 
     @GetMapping("/home")
-    public ModelAndView getHomePage() {
-
-        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+    public ModelAndView getHomePage(HttpSession session) {
+        UUID userId = (UUID) session.getAttribute("userId");
+        User user = userService.getById(userId);
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
         modelAndView.addObject("user", user);
 
         return modelAndView;
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 }
