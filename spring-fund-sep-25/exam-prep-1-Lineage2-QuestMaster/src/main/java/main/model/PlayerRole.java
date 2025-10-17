@@ -2,6 +2,7 @@ package main.model;
 
 public enum PlayerRole {
 
-    // TODO:
+    ADVENTURER,
+    QUEST_MASTER
 
 }

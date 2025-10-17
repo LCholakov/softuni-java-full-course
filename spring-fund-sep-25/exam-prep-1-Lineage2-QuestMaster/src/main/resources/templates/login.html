@@ -19,12 +19,12 @@
 <main class="main-content">
     <div class="form-container">
         <h2>Login</h2>
-        <form action="" method="post">
+        <form action="" method="post" th:object="${loginRequest}">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" required />
+            <input th:field="*{username}" type="text" id="username" name="username" required />
 
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" required />
+            <input th:field="*{password}" type="password" id="password" name="password" required />
 
             <button type="submit">Teleport Inside</button>
         </form>

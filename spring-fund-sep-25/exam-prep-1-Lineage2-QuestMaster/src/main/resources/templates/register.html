@@ -19,24 +19,24 @@
 <main class="main-content">
     <div class="form-container">
         <h2>Register</h2>
-        <form action="/register" method="post">
+        <form action="/register" method="post" th:object="${registerRequest}">
             <label for="username">Username
-                <span class="invalid-form-input">invalid username</span>
+                <span th:if="${#fields.hasErrors('username')}" class="invalid-form-input">invalid username</span>
                 <span class="invalid-form-input validation-text">length must be [1 - 12] symbols</span>
             </label>
-            <input type="text" id="username" name="username" required />
+            <input th:field="*{username}" type="text" id="username" name="username" required />
 
             <label for="password">Password
-                <span class="invalid-form-input">invalid password</span>
+                <span th:if="${#fields.hasErrors('password')}" class="invalid-form-input">invalid password</span>
                 <span class="invalid-form-input validation-text">length must be [1 - 12] symbols</span>
             </label>
-            <input type="password" id="password" name="password" required />
+            <input th:field="*{password}" type="password" id="password" name="password" required />
 
             <label for="nickname">Nickname
-                <span class="invalid-form-input">invalid nickname</span>
+                <span th:if="${#fields.hasErrors('nickname')}" class="invalid-form-input">invalid nickname</span>
                 <span class="invalid-form-input validation-text">length must be [1 - 12] symbols</span>
             </label>
-            <input type="text" id="nickname" name="nickname" required />
+            <input th:field="*{nickname}" type="text" id="nickname" name="nickname" required />
 
             <button type="submit">Join the World</button>
         </form>
