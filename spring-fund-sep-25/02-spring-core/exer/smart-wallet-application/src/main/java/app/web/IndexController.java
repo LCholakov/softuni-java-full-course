@@ -15,10 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.management.MalformedObjectNameException;
 import java.util.UUID;
@@ -40,11 +39,12 @@ public class IndexController {
     }
 
     @GetMapping("/login")
-    public ModelAndView getLoginPage() {
+    public ModelAndView getLoginPage(@RequestParam(name = "loginAttemptMessage", required = false) String message) {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         modelAndView.addObject("loginRequest", new LoginRequest());
+        modelAndView.addObject("loginAttemptMessage", message);
 
         return modelAndView;
     }
@@ -64,7 +64,7 @@ public class IndexController {
         User user = userService.login(loginRequest);
         session.setAttribute("userId", user.getId());
         session.setAttribute("secretMessage", "This is your secret message.");
-        session.setMaxInactiveInterval(15);
+        session.setMaxInactiveInterval(1500);
 
         return new ModelAndView("redirect:/home");
     }
@@ -82,18 +82,19 @@ public class IndexController {
     }
 
     @PostMapping("/register")
-    public ModelAndView register(@Valid RegisterRequest registerRequest, BindingResult bindingResult, ModelMap modelMap) {
+    public ModelAndView register(@Valid RegisterRequest registerRequest, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if(bindingResult.hasErrors()) {
             return new ModelAndView("register");
         }
 
         userService.register(registerRequest);
+        redirectAttributes.addFlashAttribute("successfulRegistration", "You have registered successfully");
 
 //        after every put/post/patch query always redirect !!!
 //        post -> redirect -> get pattern
 //        avoid resubmission of form on page refresh
-        return new ModelAndView("redirect:/home");
+        return new ModelAndView("redirect:/login");
     }
 
     @GetMapping("/home")

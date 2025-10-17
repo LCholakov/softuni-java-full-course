@@ -8,10 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -67,5 +64,17 @@ public class UserController {
         modelAndView.setViewName("users");
         modelAndView.addObject("users", users);
         return modelAndView;
+    }
+
+    @PatchMapping("/{id}/role")
+    public String switchUserRole(@PathVariable UUID id) {
+        userService.switchRole(id);
+        return "redirect:/users";
+    }
+
+    @PatchMapping("/{id}/status")
+    public String switchUserStatus(@PathVariable UUID id) {
+        userService.switchStatus(id);
+        return "redirect:/users";
     }
 }

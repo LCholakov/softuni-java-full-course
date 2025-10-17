@@ -1,7 +1,7 @@
 package app.user.service;
 
 import app.subscription.model.Subscription;
-import app.subscription.service.SubcriptionService;
+import app.subscription.service.SubscriptionService;
 import app.user.model.User;
 import app.user.model.UserRole;
 import app.user.property.UserProperties;
@@ -32,16 +32,16 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final WalletRepository walletRepository;
     private final WalletService walletService;
-    private final SubcriptionService subcriptionService;
+    private final SubscriptionService subscriptionService;
     private final UserProperties userProperties;
 
     @Autowired // i don't care how, but userRepos is a bean, so give it to me here.
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, WalletRepository walletRepository, WalletService walletService, SubcriptionService subcriptionService, UserProperties userProperties) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, WalletRepository walletRepository, WalletService walletService, SubscriptionService subscriptionService, UserProperties userProperties) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.walletRepository = walletRepository;
         this.walletService = walletService;
-        this.subcriptionService = subcriptionService;
+        this.subscriptionService = subscriptionService;
         this.userProperties = userProperties;
     }
 
@@ -80,7 +80,7 @@ public class UserService {
 
         user = userRepository.save(user); // get user with an ID created
         Wallet defaultWallet = walletService.createDefaultWallet(user);
-        Subscription defaultSubscription = subcriptionService.createDefaultSubscription(user);
+        Subscription defaultSubscription = subscriptionService.createDefaultSubscription(user);
 
         user.setWallets(List.of(defaultWallet));
         user.setSubscriptions(List.of(defaultSubscription));
@@ -115,6 +115,26 @@ public class UserService {
         user.setProfilePicture(editProfileRequest.getProfilePictureUrl());
         user.setUpdatedOn(LocalDateTime.now());
 
+        userRepository.save(user);
+    }
+
+    public void switchRole(UUID id) {
+        User user = getById(id);
+        if(user.getRole() == UserRole.USER) {
+            user.setRole(UserRole.ADMIN);
+            user.setUpdatedOn(LocalDateTime.now());
+        } else {
+            user.setRole(UserRole.USER);
+            user.setUpdatedOn(LocalDateTime.now());
+        }
+
+        userRepository.save(user);
+    }
+
+    public void switchStatus(UUID id) {
+        User user = getById(id);
+        user.setActive(!user.isActive());
+        user.setUpdatedOn(LocalDateTime.now());
         userRepository.save(user);
     }
 }
