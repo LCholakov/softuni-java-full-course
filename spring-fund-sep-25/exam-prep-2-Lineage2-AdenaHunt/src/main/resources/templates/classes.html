@@ -70,7 +70,7 @@
                         <span>+15% Attack</span>
                     </div>
                 </div>
-                <form action="" method="">
+                <form th:action="@{/players/me/class(class=${T(main.model.PlayerClass).STORM_SCREAMER})}" th:method="patch">
                     <button type="submit" class="btn-primary">Storm Screamer</button>
                 </form>
             </div>
@@ -127,7 +127,7 @@
                         <span>+10% Adena Gain</span>
                     </div>
                 </div>
-                <form action="" method="">
+                <form th:action="@{/players/me/class(class=${T(main.model.PlayerClass).MOONLIGHT_SENTINEL})}" th:method="patch">
                     <button type="submit" class="btn-primary">Moonlight Sentinel</button>
                 </form>
             </div>
@@ -184,7 +184,7 @@
                         <span>+24% Adena Gain</span>
                     </div>
                 </div>
-                <form action="" method="">
+                <form th:action="@{/players/me/class(class=${T(main.model.PlayerClass).PHOENIX_KNIGHT})}" th:method="patch">
                     <button type="submit" class="btn-primary">Phoenix Knight</button>
                 </form>
             </div>
@@ -241,7 +241,7 @@
                         <span>+27% Adena Gain</span>
                     </div>
                 </div>
-                <form action="" method="">
+                <form th:action="@{/players/me/class(class=${T(main.model.PlayerClass).TRICKSTER})}" th:method="patch">
                     <button type="submit" class="btn-primary">Trickster</button>
                 </form>
             </div>
@@ -294,7 +294,7 @@
                         <span>+20% Adena Gain</span>
                     </div>
                 </div>
-                <form action="" method="">
+                <form th:action="@{/players/me/class(class=${T(main.model.PlayerClass).DREADNOUGHT})}" th:method="patch">
                     <button type="submit" class="btn-primary">Dreadnought</button>
                 </form>
             </div>

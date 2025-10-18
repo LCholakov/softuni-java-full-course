@@ -18,6 +18,17 @@ public class ClassProperties {
 
     private List<ClassDetail> classes;
 
+    public ClassDetail getDetailsByPlayerClass(PlayerClass playerClass) {
+        ClassDetail classDetail = this
+                .classes
+                .stream()
+                .filter(d -> d.getPlayerClass() == playerClass)
+                .findFirst()
+                .get();
+
+        return classDetail;
+    }
+
     @Data
     public static class ClassDetail {
         private PlayerClass playerClass;
