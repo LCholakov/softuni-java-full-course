@@ -76,4 +76,8 @@ public class PlayerService {
     public List<Player> getAllAdventurers() {
         return playerRepository.findAllByRoleOrderByXpDesc(PlayerRole.ADVENTURER);
     }
+
+    public void update(Player player) {
+        playerRepository.save(player);
+    }
 }

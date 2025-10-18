@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ItemService {
@@ -33,5 +34,10 @@ public class ItemService {
                 .updatedBy(player.getNickname())
                 .build();
         itemRepository.save(item);
+    }
+
+    public Item getById(UUID itemId) {
+        return itemRepository.findById(itemId)
+                .orElseThrow(() -> new RuntimeException("Item with id " + itemId + " not found."));
     }
 }
