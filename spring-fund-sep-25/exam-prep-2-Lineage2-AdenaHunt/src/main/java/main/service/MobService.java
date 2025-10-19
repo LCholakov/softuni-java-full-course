@@ -66,4 +66,8 @@ public class MobService {
 
         return mobs.stream().limit(3).toList();
     }
+
+    public List<Mob> getAll() {
+        return mobRepository.findAll();
+    }
 }

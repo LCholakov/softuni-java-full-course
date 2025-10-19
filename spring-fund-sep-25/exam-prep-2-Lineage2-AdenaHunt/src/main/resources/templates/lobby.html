@@ -122,7 +122,7 @@
                         <span class="mob-type-tag" th:classappend="${#strings.toLowerCase(mob.type.getDisplayName())}" th:text="${mob.type.getDisplayName()}">Common</span>
                     </div>
                     <div class="mob-meta">
-                        <span class="spawn-time" th:text="${mob.createdOn}">10:05:01</span>
+                        <span class="spawn-time" th:text="${#temporals.format(mob.createdOn, 'HH:mm:ss')}">10:05:01</span>
                         <span class="mob-area-tag" th:text="${mob.spawnArea}">Talking Island</span>
                     </div>
                     <div class="mob-stats">
