@@ -124,8 +124,8 @@
                         </div>
                         <!-- TODO:DONE spell's description -->
                         <p class="desc" th:text="${spell.description}">The Killing Curse - dark spell that causes instant death to its target.</p>
-                        <!-- TODO: Send POST request to learn this spell -->
-                        <form class="learn-form" method="post" action="/spells?spell-code=AVADA_KEDAVRA">
+                        <!-- TODO:DONE Send POST request to learn this spell -->
+                        <form class="learn-form" method="post" th:action="@{'/spells?spellCode=' + ${spell.code}}">
                             <button type="submit" class="btn btn-secondary full">Learn</button>
                         </form>
                     </div>

@@ -3,10 +3,13 @@ package main.service;
 import jakarta.validation.Valid;
 import main.exception.ExamException;
 import main.model.Spell;
+import main.model.SpellAlignment;
 import main.model.Wizard;
+import main.model.WizardAlignment;
 import main.property.SpellsProperties;
 import main.property.SpellsProperties.SpellDetails;
 import main.repository.WizardRepository;
+import main.web.dto.EditRequest;
 import main.web.dto.LoginRequest;
 import main.web.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +53,8 @@ public class WizardService {
 
         wizardRepository.save(wizard);
 
-//        this would be better in its own method prbly
+//        all of these spell methods should be in the spell service
+//        will move if time left
         List<SpellDetails> startingSpells = wizardProperties.getStartingSpells();
         if(startingSpells.isEmpty()) {
             throw new ExamException("No starting spells defined in properties.");
@@ -102,9 +106,16 @@ public class WizardService {
     }
 
     public List<Spell> getAvailableSpells(Wizard wizard) {
+        List<Spell> learnedSpells = wizard.getSpells();
         List<SpellDetails> allSpellDetails = wizardProperties.getSpells();
+
+        List<String> learnedSpellNames = learnedSpells.stream()
+                .map(Spell::getName)
+                .toList();
+
         return allSpellDetails.stream()
                 .filter(spellDetail -> spellDetail.getMinLearned() <= wizard.getSpells().size())
+                .filter(spellDetail -> !learnedSpellNames.contains(spellDetail.getName()))
                 .map(spellDetail -> {
                     return Spell.builder()
                             .code(spellDetail.getCode())
@@ -133,5 +144,41 @@ public class WizardService {
                             .power(spellDetail.getPower())
                             .build();
                 }).toList();
+    }
+
+    public void learnSpell(UUID wizardId, String spellCode) {
+        Wizard wizard = getWizardById(wizardId);
+        List<SpellDetails> allSpellDetails = wizardProperties.getSpells();
+
+        SpellDetails spellToLearnDetails = allSpellDetails.stream()
+                .filter(spellDetail -> spellDetail.getCode().equals(spellCode))
+                .findFirst()
+                .orElseThrow(() -> new ExamException("Spell with code " + spellCode + " not found."));
+
+        Spell newSpell = spellService.createSpell(wizard, spellToLearnDetails);
+        if(wizard.getAlignment() == WizardAlignment.LIGHT && newSpell.getAlignment() == SpellAlignment.DARK) {
+            wizard.setAlignment(WizardAlignment.DARK);
+        }
+        wizard.getSpells().add(newSpell);
+        wizard.setUpdatedOn(LocalDateTime.now());
+
+        wizardRepository.save(wizard);
+    }
+
+    public void updateWizardProfile(UUID wizardId, EditRequest editRequest) {
+        Wizard wizard = getWizardById(wizardId);
+        wizard.setUsername(editRequest.getUsername());
+        wizard.setAvatarUrl(editRequest.getAvatarUrl());
+        wizard.setUpdatedOn(LocalDateTime.now());
+
+        wizardRepository.save(wizard);
+    }
+
+    public void changeWizardAlignmentToDark(UUID wizardId) {
+        Wizard wizard = getWizardById(wizardId);
+        wizard.setAlignment(WizardAlignment.DARK);
+        wizard.setUpdatedOn(LocalDateTime.now());
+
+        wizardRepository.save(wizard);
     }
 }

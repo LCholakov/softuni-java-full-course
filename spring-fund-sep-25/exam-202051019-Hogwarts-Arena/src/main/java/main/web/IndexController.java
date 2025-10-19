@@ -100,4 +100,9 @@ public class IndexController {
         return "redirect:/";
     }
 
+
+    @GetMapping("/arena")
+    public String getArenaPage() {
+        return "arena";
+    }
 }
