@@ -7,6 +7,7 @@ import main.model.Wizard;
 import main.property.SpellsProperties;
 import main.property.SpellsProperties.SpellDetails;
 import main.repository.WizardRepository;
+import main.web.dto.LoginRequest;
 import main.web.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class WizardService {
@@ -64,5 +66,72 @@ public class WizardService {
 
         wizardRepository.save(wizard);
 
+    }
+
+    public Wizard login(LoginRequest loginRequest) {
+
+
+        Wizard wizard = wizardRepository.findByUsername(loginRequest.getUsername())
+                .orElseThrow(() -> new ExamException("User with username " + loginRequest.getUsername() + " not found."));
+
+        if(!passwordEncoder.matches(loginRequest.getPassword(), wizard.getPassword())) {
+            throw new ExamException("Username or password is incorrect.");
+        }
+
+        return wizard;
+    }
+
+    public Wizard getWizardById(UUID wizardId) {
+        return wizardRepository.findById(wizardId)
+                .orElseThrow(() -> new ExamException("Wizard not found"));
+    }
+
+    public List<Spell> getAllSpells(Wizard wizard) {
+        List<SpellDetails> allSpellDetails = wizardProperties.getSpells();
+        return allSpellDetails.stream()
+                .map(spellDetail -> {
+                    return Spell.builder()
+                            .name(spellDetail.getName())
+                            .image(spellDetail.getImage())
+                            .category(spellDetail.getCategory())
+                            .alignment(spellDetail.getAlignment())
+                            .power(spellDetail.getPower())
+                            .description(spellDetail.getDescription())
+                            .build();
+                }).toList();
+    }
+
+    public List<Spell> getAvailableSpells(Wizard wizard) {
+        List<SpellDetails> allSpellDetails = wizardProperties.getSpells();
+        return allSpellDetails.stream()
+                .filter(spellDetail -> spellDetail.getMinLearned() <= wizard.getSpells().size())
+                .map(spellDetail -> {
+                    return Spell.builder()
+                            .code(spellDetail.getCode())
+                            .name(spellDetail.getName())
+                            .description(spellDetail.getDescription())
+                            .category(spellDetail.getCategory())
+                            .alignment(spellDetail.getAlignment())
+                            .image(spellDetail.getImage())
+                            .power(spellDetail.getPower())
+                            .build();
+                }).toList();
+    }
+
+    public List<Spell> getLockedSpells(Wizard wizard) {
+        List<SpellDetails> allSpellDetails = wizardProperties.getSpells();
+        return allSpellDetails.stream()
+                .filter(spellDetail -> spellDetail.getMinLearned() > wizard.getSpells().size())
+                .map(spellDetail -> {
+                    return Spell.builder()
+                            .code(spellDetail.getCode())
+                            .name(spellDetail.getName())
+                            .description(spellDetail.getDescription())
+                            .category(spellDetail.getCategory())
+                            .alignment(spellDetail.getAlignment())
+                            .image(spellDetail.getImage())
+                            .power(spellDetail.getPower())
+                            .build();
+                }).toList();
     }
 }

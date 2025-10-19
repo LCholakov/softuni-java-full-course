@@ -46,4 +46,10 @@ public class Wizard {
 
     @Column(nullable = false)
     private LocalDateTime updatedOn; // When the wizard's information was last updated (LocalDateTime, not null)
+
+
+    public void addSpell(Spell spell) {
+        spells.add(spell);
+        spell.setWizard(this);
+    }
 }

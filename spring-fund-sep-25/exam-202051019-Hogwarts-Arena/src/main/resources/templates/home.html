@@ -18,23 +18,24 @@
 <div class="home-shell">
 
     <aside class="sidebar panel" role="complementary">
-        <div class="profile-head">
-            <img class="avatar" src="/images/default-avatar.png"> <!-- TODO: use wizard.avatarUrl -->
-            <h2 class="username">Wizard Name</h2> <!-- TODO: use wizard.username -->
+        <div class="profile-head" >
+            <img class="avatar" th:src="${wizard.avatarUrl}"> <!-- TODO:DONE: use wizard.avatarUrl -->
+            <h2 class="username" th:text="${wizard.username}">Wizard Name</h2> <!-- TODO:DONE: use wizard.username -->
             <div class="badges">
-                <!-- TODO: display wizard's house (if) -->
-                <span class="badge house house-gryffindor">Gryffindor</span>
+                <!-- TODO:DONE display wizard's house (if) -->
+                <span class="badge house" th:classappend="${'house-' + #strings.toLowerCase(wizard.house.name)}" th:text="${wizard.house.getDisplayName()}">Gryffindor</span>
                 <!--<span class="badge house house-slytherin">Slytherin</span>-->
                 <!--<span class="badge house house-ravenclaw">Ravenclaw</span>-->
                 <!--<span class="badge house house-hufflepuff">Hufflepuff</span>-->
 
                 <!-- TODO: display wizard's alignment (if) -->
-                <span class="pill pill-align-light">Light Wizard</span>
+                <span class="pill" th:classappend="${'pill-align-' + #strings.toLowerCase(wizard.alignment.name)}" th:text="${wizard.alignment.getDisplayName() + ' Wizard'}">Light Wizard</span>
+<!--                <span class="pill pill-align-light">Light Wizard</span>-->
 <!--                <span class="pill pill-align-dark">Dark Wizard</span>-->
             </div>
 
-            <!-- TODO: display "Member since {wizard.createdOn}" -->
-            <p class="muted created">Member since 2025-01-28</p>
+            <!-- TODO:DONE display "Member since {wizard.createdOn}" -->
+            <p class="muted created" th:text="'Member since ' + ${#temporals.format(wizard.createdOn, 'yyyy-MM-dd')}">Member since 2025-01-28</p>
         </div>
 
         <!--   This DIV contains static info, please don't change it!  -->
@@ -43,11 +44,11 @@
             <p class="note-text">“Power without discipline is mere chaos.”</p>
         </div>
 
-        <!-- TODO: use correct urls for Wizard Profile, Arena and Logout -->
+        <!-- TODO:DONE use correct urls for Wizard Profile, Arena and Logout -->
         <div class="sidebar-ctas">
-            <a href="/url-here" class="btn btn-primary full">Wizard Profile</a>
-            <a href="/url-here" class="btn btn-primary full">Arena</a>
-            <a href="/url-here" class="btn btn-secondary full">Logout</a>
+            <a href="/profile" class="btn btn-primary full">Wizard Profile</a>
+            <a href="/arena" class="btn btn-primary full">Arena</a>
+            <a href="/logout" class="btn btn-secondary full">Logout</a>
         </div>
     </aside>
 
@@ -56,35 +57,35 @@
         <section class="section panel">
             <header class="section-head">
                 <h3>Learned Spells</h3>
-                <!-- TODO: bind learned spells count -->
-                <span class="count-badge">1</span>
+                <!-- TODO:DONE bind learned spells count -->
+                <span class="count-badge" th:text="${learnedSpells.size()}">1</span>
             </header>
             <div class="cards">
                 <!-- TODO: loop through every learned spell of the wizard -->
-                <article class="spell-card learned">
+                <article class="spell-card learned" th:each="spell : ${learnedSpells}">
                     <div class="media">
                         <!-- TODO: spell's image -->
-                        <img src="/images/spells/protego.png">
+                        <img th:src="${spell.image}">
                         <div class="pills">
                             <!-- TODO: spell's category with capital first letter only -->
-                            <span class="pill pill-cat">Defense</span>
+                            <span class="pill pill-cat" th:text="${spell.category.getDisplayName()}">Defense</span>
                             <!-- TODO: spell's alignment (if) -->
-                            <span class="pill pill-align pill-align-light">Light</span>
+                            <span class="pill pill-align" th:classappend="${'pill-align-' + #strings.toLowerCase(spell.alignment.name)}" th:text="${spell.alignment.getDisplayName()}">Light</span>
                             <!--<span class="pill pill-align pill-align-neutral">Neutral</span>-->
                             <!--<span class="pill pill-align pill-align-dark">Dark</span>-->
                         </div>
                     </div>
                     <div class="body">
-                        <!-- TODO: spell's name -->
-                        <h4 class="spell-name">Protego</h4>
+                        <!-- TODO:DONE spell's name -->
+                        <h4 class="spell-name" th:text="${spell.name}">Protego</h4>
                         <div class="meta">
-                            <!-- TODO: spell's power -->
-                            <span class="meta-item">Power <strong>97</strong></span>
-                            <!-- TODO: spell's createdOn date -->
-                            <span class="meta-item">Learned <strong>2025-01-21</strong></span>
+                            <!-- TODO:DONE spell's power -->
+                            <span class="meta-item" th:text="${spell.power}">Power <strong>97</strong></span>
+                            <!-- TODO:DONE spell's createdOn date -->
+                            <span class="meta-item">Learned <strong th:text="${#temporals.format(spell.createdOn, 'yyyy-MM-dd')}">2025-01-21</strong></span>
                         </div>
-                        <!-- TODO: spell's description -->
-                        <p class="desc">Conjures protective cursed flames that spare allies.</p>
+                        <!-- TODO:DONE spell's description -->
+                        <p class="desc" th:text="${spell.description}">Conjures protective cursed flames that spare allies.</p>
                     </div>
                 </article>
             </div>
@@ -97,32 +98,32 @@
             </header>
             <div class="cards">
                 <!-- TODO: loop through every spell the wizard can learn -->
-                <article class="spell-card eligible">
+                <article class="spell-card eligible" th:each="spell : ${availableSpells}">
                     <div class="media">
-                        <!-- TODO: spell's image -->
-                        <img src="/images/spells/avada-kedavra.png">
+                        <!-- TODO:DONE spell's image -->
+                        <img th:src="${spell.image}">
                         <div class="pills">
-                            <!-- TODO: spell's category with capital first letter only -->
-                            <span class="pill pill-cat">Offense</span>
-                            <!-- TODO: spell's alignment (if) -->
-                            <span class="pill pill-align pill-align-dark">Dark</span>
+                            <!-- TODO:DONE spell's category with capital first letter only -->
+                            <span class="pill pill-cat" th:text="${spell.category.getDisplayName()}">Offense</span>
+                            <!-- TODO:DONE spell's alignment (if) -->
+                            <span class="pill pill-align" th:classappend="${'pill-align-' + #strings.toLowerCase(spell.alignment.name)}" th:text="${spell.alignment.getDisplayName()}">Dark</span>
                             <!--<span class="pill pill-align pill-align-light">Light</span>-->
                             <!--<span class="pill pill-align pill-align-neutral">Neutral</span>-->
                         </div>
-                        <!-- TODO: show the div below ONLY IF wizard is Light and spell is Dark!!! -->
-                        <div class="consequence">
+                        <!-- TODO:DONE: show the div below ONLY IF wizard is Light and spell is Dark!!! -->
+                        <div class="consequence" th:if="${wizard.alignment.name() !=  spell.alignment.name()}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16"><path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/></svg>
                         </div>
                     </div>
                     <div class="body">
-                        <!-- TODO: spell's name -->
-                        <h4 class="spell-name">Avada Kedavra</h4>
+                        <!-- TODO:DONE spell's name -->
+                        <h4 class="spell-name"  th:text="${spell.name}">Avada Kedavra</h4>
                         <div class="meta">
-                            <!-- TODO: spell's power -->
-                            <span class="meta-item">Power <strong>271</strong></span>
+                            <!-- TODO:DONE spell's power -->
+                            <span class="meta-item">Power <strong th:text="${spell.power}">271</strong></span>
                         </div>
-                        <!-- TODO: spell's description -->
-                        <p class="desc">The Killing Curse - dark spell that causes instant death to its target.</p>
+                        <!-- TODO:DONE spell's description -->
+                        <p class="desc" th:text="${spell.description}">The Killing Curse - dark spell that causes instant death to its target.</p>
                         <!-- TODO: Send POST request to learn this spell -->
                         <form class="learn-form" method="post" action="/spells?spell-code=AVADA_KEDAVRA">
                             <button type="submit" class="btn btn-secondary full">Learn</button>
@@ -131,35 +132,33 @@
                 </article>
 
                 <!-- TODO: loop through every locked spell the wizard cannot learn yet -->
-                <article class="spell-card locked">
+                <article class="spell-card locked" th:each="spell : ${lockedSpells}">
                     <div class="media">
-                        <!-- TODO: spell's image -->
-                        <img src="/images/spells/imperio.png">
+                        <!-- TODO:DONE spell's image -->
+                        <img th:src="${spell.image}">
                         <div class="pills">
-                            <!-- TODO: spell's category with capital first letter only -->
-                            <span class="pill pill-cat">Offense</span>
-                            <!-- TODO: spell's alignment (if) -->
-                            <span class="pill pill-align pill-align-dark">Dark</span>
+                            <!-- TODO:DONE spell's category with capital first letter only -->
+                            <span class="pill pill-cat" th:text="${spell.category.getDisplayName()}">Offense</span>
+                            <!-- TODO:DONE spell's alignment (if) -->
+                            <span class="pill pill-align" th:classappend="${'pill-align-' + #strings.toLowerCase(spell.alignment.name)}" th:text="${spell.alignment.getDisplayName()}">Dark</span>
                             <!--<span class="pill pill-align pill-align-light">Light</span>-->
                             <!--<span class="pill pill-align pill-align-neutral">Neutral</span>-->
                         </div>
                         <div class="ribbon">LOCKED</div>
-                        <!-- TODO: show the div below ONLY IF wizard is Light and spell is Dark!!! -->
-                        <div class="consequence">
+                        <!-- TODO:DONE: show the div below ONLY IF wizard is Light and spell is Dark!!! -->
+                        <div class="consequence" th:if="${wizard.alignment.name() !=  spell.alignment.name()}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16"><path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/></svg>
                         </div>
                     </div>
                     <div class="body">
-                        <!-- TODO: spell's name -->
-                        <h4 class="spell-name">Imperio</h4>
+                        <!-- TODO:DONE spell's name -->
+                        <h4 class="spell-name"  th:text="${spell.name}">Avada Kedavra</h4>
                         <div class="meta">
-                            <!-- TODO: spell's power -->
-                            <span class="meta-item">Power <strong>90</strong></span>
-                            <!-- TODO: required number of spells (minLearned) -->
-                            <span class="meta-item notyet">Requires <strong>2</strong> learned</span>
+                            <!-- TODO:DONE spell's power -->
+                            <span class="meta-item">Power <strong th:text="${spell.power}">271</strong></span>
                         </div>
-                        <!-- TODO: spell's description -->
-                        <p class="desc">The Imperius Curse - dark spell that bends the will of the target.</p>
+                        <!-- TODO:DONE spell's description -->
+                        <p class="desc" th:text="${spell.description}">The Killing Curse - dark spell that causes instant death to its target.</p>
                     </div>
                 </article>
             </div>
