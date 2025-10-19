@@ -21,6 +21,12 @@ public class SpellsProperties {
 
     private List<SpellDetails> spells;
 
+    public List<SpellDetails> getStartingSpells() {
+        return this.spells.stream()
+                .filter(s -> s.getMinLearned() == 0)
+                .toList();
+    }
+
     @Data
     public static class SpellDetails {
         private String code; // "LUMOS"
