@@ -1,5 +1,6 @@
 package main.property;
 
+import jakarta.annotation.PostConstruct;
 import lombok.Data;
 import main.config.YamlPropertySourceFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -28,5 +29,12 @@ public class MobProperties {
         private double defenseFactor;
         private int[] adenaDrop;
         private int[] xpDrop;
+    }
+
+//    test if this loads
+//    can't get it to work
+    @PostConstruct
+    public void test() {
+        System.out.println("Loaded mob details: " + mobs.size());
     }
 }

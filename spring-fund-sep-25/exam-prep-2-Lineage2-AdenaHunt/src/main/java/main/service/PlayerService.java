@@ -1,6 +1,7 @@
 package main.service;
 
 import jakarta.validation.Valid;
+import main.model.Party;
 import main.model.Player;
 import main.model.PlayerClass;
 import main.property.ClassProperties;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -72,6 +74,28 @@ public class PlayerService {
 
         player.setUpdatedOn(LocalDateTime.now());
 
+        playerRepository.save(player);
+    }
+
+    public List<ClassProperties.Booster> getBoosters(PlayerClass playerClass) {
+        return classProperties.getDetailsByPlayerClass(playerClass).getBoosters();
+    }
+
+    public List<Player> findAllByParty(Party party) {
+        if(party == null) {
+            return List.of();
+        }
+        return playerRepository.findAllByParty_Id(party.getId());
+    }
+
+    public List<Player> findAllFreePlayersForInvite(Player currentPlayer) {
+        return playerRepository
+                .findAll().stream()
+                .filter(p -> p.getPlayerClass() != null && p.getParty() == null && !p.getId().equals(currentPlayer.getId()))
+                .toList();
+    }
+
+    public void update(Player player) {
         playerRepository.save(player);
     }
 }
